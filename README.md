@@ -17,7 +17,7 @@ DB={database name}
 ```
 
 Now the discord bot can run with `node index.js`.
-Alternatively, run the discord bot with a process managing package like [https://pm2.keymetrics.io/](pm2).
+Alternatively, run the discord bot with a process managing package like [pm2](https://pm2.keymetrics.io/).
 Or if on linux create a system service. For example:
 
 ```
