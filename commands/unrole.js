@@ -2,23 +2,29 @@ module.exports = {
     name: '!unrole',
     description: 'Allows the user to select a role from a list of roles they can access.',
     execute(msg, args) {
-        var role = args.join(' ');
-        var roles = msg.guild.roles;
-        var exists = false;
-        var permitted = false;
+        let role = args.join(' ');
+        let roles = msg.guild.roles;
+        let exists = false;
+        let permitted = false;
         roles.forEach((value, key, map) => {
             if(value.name.toLowerCase() === role.toLowerCase()) {
                 exists = true;
                 permitted = value.color == 15844367;
                 if(permitted) {
-                    var member = msg.guild.members.get(msg.author.id);
-                    member.removeRole(key).then(function() {
-                        require('../channel').reply(msg, `Your role "${value.name}" has been removed.`);
-                    }).catch(function() {
-                        require('../channel').reply(msg, `You do not have the role "${role}".`);
+                    let member = msg.guild.members.get(msg.author.id);
+                    let hasrole = false;
+                    member.roles.forEach((val, key, map) => {
+                        if(val.name.toLowerCase() === value.name.toLowerCase()) {
+                            hasrole = true;
+                        }
                     });
-                    
-                    console.log(`Removed from member ${msg.author.username}#${msg.author.discriminator} the role "${value.name}".`);
+                    if(hasrole) {
+                        member.removeRole(value);
+                        require('../channel').reply(msg, `Your role "${value.name}" has been removed.`);
+                        console.log(`Removed from member ${msg.author.username}#${msg.author.discriminator} the role "${value.name}".`);
+                    } else {
+                        require('../channel').reply(msg, `You do not have the role "${value.name}".`);
+                    }
                 }
             }
         });

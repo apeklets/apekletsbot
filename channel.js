@@ -8,7 +8,7 @@ module.exports = {
         } else {
             db.query(`SELECT channelid FROM servers WHERE serverid = "${msg.guild.id}" AND name = "${msg.guild.name}";`, function(err, rows, fields) {
                 if(err) {
-                    console.log('reply.js: ' + err.sqlMessage);
+                    console.log('channel.js: ' + err.sqlMessage);
                 } else if(rows.length > 0) {
                     module.exports.channelid = rows[0].channelid;
                     module.exports.serverid = msg.guild.id;

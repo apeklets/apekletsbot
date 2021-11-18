@@ -12,9 +12,14 @@ module.exports = {
                 permitted = value.color == 15844367;
                 if(permitted) {
                     var member = msg.guild.members.get(msg.author.id);
-                    member.addRole(key);
-                    require('../channel').reply(msg, `You have been given the role "${value.name}".`);
-                    console.log(`Given member ${msg.author.username}#${msg.author.discriminator} the role "${value.name}".`);
+                    let hasrole = member.roles.some(rl => rl.name.toLowerCase() === role.toLowerCase());
+                    if(!hasrole) {
+                        member.addRole(value); 
+                        require('../channel').reply(msg, `You have been given the role "${value.name}".`);
+                        console.log(`Given member ${msg.author.username}#${msg.author.discriminator} the role "${value.name}".`);
+                    } else {
+                        require('../channel').reply(msg, `You already have the role "${value.name}".`);
+                    }
                 }
             }
         });
